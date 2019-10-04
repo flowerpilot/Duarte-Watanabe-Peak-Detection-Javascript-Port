@@ -1,0 +1,20 @@
+{
+  "name": "@joe_six/duarte-watanabe-peak-detection",
+  "version": "0.1.0",
+  "description": "Detect peaks in data based on their amplitude and other features (ported from python)",
+  "main": "detect-peak.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "dirk lüsebrink <dirk.luesebrink@gmail.com>",
+  "keywords": [
+    "math",
+    "scientific",
+    "data"
+  ],
+  "devDependencies": {
+    "mocha": "^6.2.1",
+    "unit.js": "^2.1.0"
+  }
+}

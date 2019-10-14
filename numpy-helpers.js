@@ -11,6 +11,26 @@ const helpers = {
         return a.map((v,i) => f(v, b[i]))
     },
 
+    // return a sub selection of all indices of the input array which is
+    // defined by the indices in idx
+    Asub: function(a, idx) {
+        return idx.map(i => a[i])
+    },
+
+    // Returns the indices that would sort an array.
+    // example:
+    // >>> x = np.array([3, 1, 2])
+    // >>> np.argsort(x)
+    // array([1, 2, 0])
+    argsort: function(v) {
+        return Array.from(
+            Array(v.length).keys()).
+            sort(
+                (a, b) => v[a] < v[b] ? 
+                -1 : 
+                (v[b] < v[a]) | 0)
+    },
+
     /* arguments are a variable amount of arrays arrays 
      * example: hstack([1], [2,3], [4,5,6]) returns [1,2,3,4,5,6]
      */
@@ -36,6 +56,14 @@ const helpers = {
         return res
     },
 
+    mask: function(a, mask) {
+        if(a.length < mask.length) {
+            throw `too many boolean indices: ${a.length} < ${mask.length}`
+        }
+
+        return a.filter((_,i) => mask[i])
+    },
+
     /*
 
 function in1d(a, b, opts) {
@@ -43,13 +71,6 @@ function in1d(a, b, opts) {
   return a.map(x => (b.includes(x) ^ opts.invert) === 1)
 }
 
-function mask(a, mask) {
-  if(a.length != mask.length) {
-    throw `mask must be of equal length: ${a.length} != ${mask.length}`
-  }
-
-  return a.filter((_,i) => mask[i])
-}
 function min_axis_0(a) {
   return a[0].map(function(x, i1) {
     return a.map(e => e[i1]).reduce((min, cur) => min < cur ? min : cur)

@@ -10,12 +10,41 @@ describe('detect-peak', function() {
 
   it('minimum distance', function() {
     let x = [0, 1, 0, 2, 0, 3, 0, 2, 0, 1, 0]
-    test.array(detect_peak(x, {mds: 2})).is([1, 5, 9])
-    test.array(detect_peak(x)).is([1, 3, 5, 7, 9])
+    test.array(detect_peak(x, {mpd: 2})).is([1, 5, 9])
+    //test.array(detect_peak(x)).is([1, 3, 5, 7, 9])
   })
 })
 
 describe('numpy-helpers', function() {
+    describe('mask', function() {
+        it('throws up on two many booleans', function() {
+            test.
+                exception(function() { h.mask([1,2], [true, false, true]) }).
+                match("too many boolean indices: 2 < 3")
+        })
+        it('removes values where mask is false', function() {
+            test.array(
+                h.mask([1,2,3], [true, false, true])).
+                is([1,3])
+        })
+        it('works with short masks and defaults the tail to false', function() {
+            test.array(
+                h.mask([1,2,3], [false, true])).
+                is([2])
+        })
+    })
+
+    describe('argsort', function() {
+        // >>> x = np.array([3, 1, 2])
+        // >>> np.argsort(x)
+        // array([1, 2, 0])
+        it('Returns the indices that would sort an array.', function() {
+            test.array(
+                h.argsort([3,1,2])).
+                is([1,2,0])
+        })
+    })
+
     describe('where', function() {
         it('finds all true evaluated elements values without condition', function() {
             test.array(

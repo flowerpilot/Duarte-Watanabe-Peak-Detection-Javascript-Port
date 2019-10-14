@@ -38,6 +38,7 @@ const Defaults = {
   valley: false,
 }
 
+/*
 function in1d(a, b, opts) {
   opts = Object.assign({'invert':false, opts})
   return a.map(x => (b.includes(x) ^ opts.invert) === 1)
@@ -55,8 +56,10 @@ function min_axis_0(a) {
     return a.map(e => e[i1]).reduce((min, cur) => min < cur ? min : cur)
   })
 }
+*/
 
 function detect_peaks(x, params) {
+console.log(`----------- ${x}, ${params}`)
   const p = Object.assign(Defaults, params)
 
   if(!Array.isArray(x)) {
@@ -69,16 +72,21 @@ function detect_peaks(x, params) {
   if(p.valley) {
     x.map(v => -v)
   }
+console.log(`1:${x}`)
 
   // find indexes of all peaks
   var dx = x.slice(1).map((v, i) => v - x[i])
+console.log(`2:${dx}`)
 
   // handle NaN's
   var indnan = h.where(x, val => val === NaN)
+console.log(`3:${indnan}`)
   if(0 < indnan.lenght) {
     indnan.forEach(i => x[i] = Infinity)
     h.where(dx, val => val === NaN).forEach(i => dx[i] = Infinity)
   }
+console.log(`4:${x}`)
+console.log(`5:${dx}`)
 
   var [ine, ire, ife] = [[],[],[]]
   if(!p.edge) {
@@ -94,7 +102,11 @@ function detect_peaks(x, params) {
       ife = h.where(h.AA(h.A(dx.concat(0), v => v < 0), h.A([0].concat(dx), v => 0 <= v), (a,b) => a && b))
     }
   }
+console.log(`6:${ine}`)
+console.log(`7:${ire}`)
+console.log(`8:${ife}`)
   var ind = h.uniq(h.hstack(ine, ire, ife))
+console.log(`9:${ind}`)
 
   // handle NaN's
   if(0 < ind.length && 0 < indnan.length) {
@@ -108,6 +120,7 @@ function detect_peaks(x, params) {
             indnan, h.A(indnam, x=>x-1), (h.A(indnan, x=>x+1)))),
         {invert: true}))
   }
+console.log(`10:${ind}`)
 
   // first and last values of x cannot be peaks
   //  if ind.size and ind[0] == 0:
@@ -120,6 +133,7 @@ function detect_peaks(x, params) {
   if(ind[ind.length-1] === 0) {
     ind = ind.slice(0, -1)
   }
+console.log(`11:${ind}`)
 
   // remove peaks < minimum peak height
   // if ind.size and mph is not None:
@@ -127,6 +141,7 @@ function detect_peaks(x, params) {
   if(p.mph) {
     ind = mask(ind, h.A(x, val >= mph))
   }
+console.log(`12:${ind}`)
   // remove peaks - neighbors < threshold
   // if ind.size and threshold > 0:
   //     dx = np.min(np.vstack([x[ind]-x[ind-1], x[ind]-x[ind+1]]), axis=0)
@@ -152,23 +167,74 @@ function detect_peaks(x, params) {
                                           // the where condition
       h.where(dx, x => !(x < p.threshold))) // np.where(dx < threshold)[0])
   }
+console.log(`13:${dx}`)
+console.log(`14:${ind}`)
 
   // detect small peaks closer than minimum peak distance
   // if ind.size and mpd > 1:
   if(p.mpd > 1) {
-    /*
-        ind = ind[np.argsort(x[ind])][::-1]  # sort ind by peak height
-        idel = np.zeros(ind.size, dtype=bool)
-        for i in range(ind.size):
-            if not idel[i]:
-                # keep peaks with the same height if kpsh is True
-                idel = idel | (ind >= ind[i] - mpd) & (ind <= ind[i] + mpd) \
-                    & (x[ind[i]] > x[ind] if kpsh else True)
-                idel[i] = 0  # Keep current peak
-        # remove the small peaks and sort back the indexes by their occurrence
-        ind = np.sort(ind[~idel])
-        */
+      // ind = ind[np.argsort(x[ind])][::-1]  # sort ind by peak height
+      ind = h.Asub(                     // ind[np.argsort(x[ind])][::-1]
+          ind,                          // ind
+          h.argsort(                    // np.argsort(x[ind])
+              h.Asub(x, ind)).          // x[ind]
+              reverse())                // np.argsort(x[ind])][::-1]
+console.log(`15:${ind}`)
+
+      // idel = np.zeros(ind.size, dtype=bool)
+      var idel = new Array(ind.length).fill(false)
+      for(var i = 0; i < ind.length; i++) {     // for i in range(ind.size):
+console.log(`16:${i}`)
+console.log(`${i}.17:${idel}`)
+          if(!idel[i]) {                        //      if not idel[i]:
+              var ind_i = ind[i]                // ind[i]
+console.log(`${i}.17.0:${ind_i}`)
+              a = h.A(ind, v => v >= ind_i - p.mpd) // (ind >= ind[i] - mpd)
+console.log(`${i}.17.1:${a}`)
+              b = h.A(ind, v => v <= ind_i + p.mpd) // (ind <= ind[i] + mpd)
+console.log(`${i}.17.2:${b}`)
+
+              // (x[ind[i]] > x[ind] if kpsh else True)
+              var x_ind_i = x[ind_i]                // x[ind[i]]
+              c = (p.kpsh ?                         // (if kpsh 
+                  h.A(                              // x[ind[i]] > x[ind]
+                      h.Asub(x, ind),               // x[ind]
+                      v => x_ind_i > v) :   
+                  new Array(ind.length).fill(true))//  else True 
+console.log(`${i}.17.3:${c}`)
+
+              // keep peaks with the same height if kpsh is True
+              // idel = idel | (ind >= ind[i] - mpd)                 \
+              //         & (ind <= ind[i] + mpd)                     \
+              //         & (x[ind[i]] > x[ind] if kpsh else True)
+              idel = h.AA(
+                  idel,
+                  h.AA(
+                      h.AA(a, b, (a,b) => (a && b)),    // (ind >= ind[i] - mpd) & (ind <= ind[i] + mpd)
+                      c, (a,b) => (a && b)),            // ... & (x[ind[i]] > x[ind] if kpsh else True)
+                  (a,b) => (a || b))                    // idel | ...
+
+console.log(`${i}.18:${idel}`)
+
+              // idel[i] = 0  # Keep current peak
+              idel[i] = false
+console.log(`${i}.19:${idel}`)
+          }
+console.log(`${i}.20:${idel}`)
+console.log(`${i}.21:${ind}`)
+      }
+          
+      // remove the small peaks and sort back the indexes by their occurrence
+      // ind = np.sort(ind[~idel])
+console.log(`22:${idel}`)
+console.log(`23:${ind}`)
+      ind = h.mask(             // ind[~idel]
+          ind, 
+          h.A(idel, v=>!v)).    // ~idel
+          sort()                // np.sort(ind[~idel])
+console.log(`24:${ind}`)
   }
+console.log(`25:${ind}`)
 
   return ind
 }

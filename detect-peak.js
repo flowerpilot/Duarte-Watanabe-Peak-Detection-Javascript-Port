@@ -59,8 +59,8 @@ function min_axis_0(a) {
 */
 
 function detect_peaks(x, params) {
-console.log(`----------- ${x}, ${params}`)
-  const p = Object.assign(Defaults, params)
+  const p = Object.assign({}, Defaults, params)
+console.log(`----------- ${x}, ${JSON.stringify(p)}`)
 
   if(!Array.isArray(x)) {
     throw 'values parameter must be an array of numbers'

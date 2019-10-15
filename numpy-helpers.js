@@ -69,17 +69,12 @@ const helpers = {
             return a.map(e => e[i1]).reduce((min, cur) => min < cur ? min : cur)
         })
     }
-    /*
 
+/*
+// XXX: untested code block, due to lack of NaN example...
 function in1d(a, b, opts) {
   opts = Object.assign({'invert':false, opts})
   return a.map(x => (b.includes(x) ^ opts.invert) === 1)
-}
-
-function min_axis_0(a) {
-  return a[0].map(function(x, i1) {
-    return a.map(e => e[i1]).reduce((min, cur) => min < cur ? min : cur)
-  })
 }
 */
 }

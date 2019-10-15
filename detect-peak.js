@@ -51,11 +51,6 @@ function mask(a, mask) {
 
   return a.filter((_,i) => mask[i])
 }
-function min_axis_0(a) {
-  return a[0].map(function(x, i1) {
-    return a.map(e => e[i1]).reduce((min, cur) => min < cur ? min : cur)
-  })
-}
 */
 
 function detect_peaks(x, params) {
@@ -147,25 +142,25 @@ console.log(`12:${ind}`)
   //     dx = np.min(np.vstack([x[ind]-x[ind-1], x[ind]-x[ind+1]]), axis=0)
   //     ind = np.delete(ind, np.where(dx < threshold)[0])
   if(0 < p.threshold) {
-    dx = min_axis_0(
+    dx = h.min_axis_0(
           [                               // vstack[ [..], [..] ]
             h.AA(                           // x[ind]-x[ind-1]
-              Asub(x, ind),               // x[ind]
-              Asub(                       // x[ind-1]
+              h.Asub(x, ind),               // x[ind]
+              h.Asub(                       // x[ind-1]
                 x, 
                 h.A(ind, i => i-1)),        // ind-1
               (a,b) => a-b),
             h.AA(                           // x[ind]-x[ind-1]
-              Asub(x, ind),               // x[ind]
-              Asub(                       // x[ind+1]
+              h.Asub(x, ind),               // x[ind]
+              h.Asub(                       // x[ind+1]
                 x, 
                 h.A(ind, i => i+1)),        // ind+1
               (a,b) => a-b)])
+console.log(`12.1:${dx}`)
 
-    ind = mask(                           // np.delete(..  mask instead of
-      ind,                                // np.delete because we put a ! in
-                                          // the where condition
-      h.where(dx, x => !(x < p.threshold))) // np.where(dx < threshold)[0])
+      // ind = np.delete(ind, np.where(dx < threshold)[0])
+      var a = h.where(dx, x => (x < p.threshold))   // np.where(dx < threshold)[0])
+      ind = ind.filter((_,i) => !a.includes(i))     // ind = np.delete(...
   }
 console.log(`13:${dx}`)
 console.log(`14:${ind}`)

@@ -64,6 +64,11 @@ const helpers = {
         return a.filter((_,i) => mask[i])
     },
 
+    min_axis_0: function(a) {
+        return a[0].map(function(x, i1) {
+            return a.map(e => e[i1]).reduce((min, cur) => min < cur ? min : cur)
+        })
+    }
     /*
 
 function in1d(a, b, opts) {

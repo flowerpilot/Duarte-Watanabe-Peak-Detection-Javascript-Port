@@ -132,6 +132,7 @@ def detect_peaks(x, mph=None, mpd=1, threshold=0, edge='rising',
     # remove peaks - neighbors < threshold
     if ind.size and threshold > 0:
         dx = np.min(np.vstack([x[ind]-x[ind-1], x[ind]-x[ind+1]]), axis=0)
+        print(f'12.1:{dx}')
         ind = np.delete(ind, np.where(dx < threshold)[0])
     print(f'13:{dx}')
     print(f'14:{ind}')

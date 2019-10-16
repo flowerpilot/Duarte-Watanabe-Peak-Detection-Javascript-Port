@@ -1,6 +1,6 @@
 {
   "name": "@joe_six/duarte-watanabe-peak-detection",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Detect peaks in data based on their amplitude and other features (ported from python)",
   "main": "detect-peak.js",
   "license": "MIT",

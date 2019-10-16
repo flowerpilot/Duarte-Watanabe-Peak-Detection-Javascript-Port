@@ -6,6 +6,10 @@ does please checkt this orginal documentation at:
 
  - https://nbviewer.jupyter.org/github/demotu/BMC/blob/master/notebooks/DetectPeaks.ipynb
 
+I use it find peaks in my IMS data (more on this another time):
+
+![vosc.png](vosc.png)
+
 ## Install 
 
   $ npm install "@joe_six/duarte-watanabe-peak-detection"

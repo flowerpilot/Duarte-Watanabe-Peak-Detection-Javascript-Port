@@ -40,7 +40,7 @@ const helpers = {
 
     uniq: function(a) { // , opts) {
         // opts = Object.assign({'invert':false, opts)
-        return [...new Set(a)].sort()
+        return [...new Set(a)].sort((a,b) => a-b)
     },
 
     // returns indices of all elements where the condition is true. When no

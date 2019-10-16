@@ -216,7 +216,7 @@ function detect_peaks(x, params) {
       ind = h.mask(             // ind[~idel]
           ind, 
           h.A(idel, v=>!v)).    // ~idel
-          sort()                // np.sort(ind[~idel])
+          sort((a,b) => a - b)  // np.sort(ind[~idel])
 //console.log(`24:${ind}`)
   }
 //console.log(`25:${ind}`)

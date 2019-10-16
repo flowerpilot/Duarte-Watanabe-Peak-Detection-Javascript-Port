@@ -14,6 +14,11 @@ describe('detect-peak', function() {
         test.array(detect_peak(x)).is([1, 3, 5, 7, 9])
     })
 
+    it('minimum distance with sorting relevance', function() {
+        let x = [0, 1, 0, 2, 0, 3, 0, 2, 0, 1, 0, 1, 0, 2, 0, 3, 0, 2, 0, 1, 0]
+        test.array(detect_peak(x, {mpd: 3})).is([1, 5, 11, 15, 19])
+    })
+
     /*
     it('set minimum peak height = 0 and minimum peak distance = 20', function() {
         let x = [0, 1, 0, 2, 0, 3, 0, 2, 0, 1, 0]

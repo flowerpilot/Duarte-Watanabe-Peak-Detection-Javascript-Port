@@ -8,7 +8,7 @@ does please checkt this orginal documentation at:
 
 I use it find peaks in my IMS data (more on this another time):
 
-![vosc.png -- THIS IS BROKEN ON NPMJS. See github repo for full display..](vosc.png)
+![vosc.png -- IMAGES ARE BROKEN ON NPMJS! :( See github repo for full display..](vosc.png)
 
 ## Install 
 

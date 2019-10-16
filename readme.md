@@ -11,9 +11,9 @@ Javascript port of an original python function for the detection of peaks in val
 ## Usage
 
 ```javascript
-  const detect_peaks = require("@joe_six/duarte-watanabe-peak-detection")
+const detect_peaks = require("@joe_six/duarte-watanabe-peak-detection")
 
-  let x = [0, 1, 0, 2, 0, 3, 0, 2, 0, 1, 0]
-  // set minimum peak distance = 2
-  var peaks = detect_peaks(x, {mpd: 2})
+let x = [0, 1, 0, 2, 0, 3, 0, 2, 0, 1, 0]
+// set minimum peak distance = 2
+var peaks = detect_peaks(x, {mpd: 2})
 ```

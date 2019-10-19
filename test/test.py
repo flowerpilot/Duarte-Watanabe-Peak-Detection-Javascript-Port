@@ -41,7 +41,7 @@ def main():
     >>> # set threshold = 2
     >>> detect_peaks(x, threshold = 2, show=True)
     """
-    x = [-2, 1, -2, 2, 1, 1, 3, 0]
+    x = [-2, 1, -2, 2, 1, 1, np.nan, 0]
     res = detect_peaks(x, threshold = 2)#, show=True)
     """
     """

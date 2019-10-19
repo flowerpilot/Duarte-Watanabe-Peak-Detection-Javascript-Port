@@ -43,9 +43,37 @@ describe('detect-peak', function() {
         let x = [-2, 1, -2, 2, 1, 1, 3, 0]
         test.array(detect_peak(x, {threshold:2})).is([1, 6])
     })
+
+    describe("handle NaN's", function() {
+        it('set threshold = 2', function() {
+            let x = [-2, 1, -2, 2, 1, 1, NaN, 0]
+            test.array(detect_peak(x, {threshold:2})).is([1])
+        })
+    })
 })
 
 describe('numpy-helpers', function() {
+
+    describe('in1d', function() {
+        /*
+        >>> test = np.array([0, 1, 2, 5, 0])
+        >>> states = [0, 2]
+        >>> mask = np.in1d(test, states)
+        >>> mask
+        array([ True, False,  True, False,  True])
+        */
+        it('masks', function() {
+            test.array(
+                h.in1d([0,1,2,5,0], [0,2])).
+                is([true, false,  true, false,  true])
+        })
+
+        it('inverts', function() {
+            test.array(
+                h.in1d_invert([0,1,2,5,0], [0,2])).
+                is([false, true, false, true, false])
+        })
+    })
 
     it('np.linspace(0, 1,  5)', function() {
         /*

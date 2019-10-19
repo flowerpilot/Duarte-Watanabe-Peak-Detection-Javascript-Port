@@ -11,6 +11,13 @@ const helpers = {
         return a.map((v,i) => f(v, b[i]))
     },
 
+    in1d: function(a1, a2) {
+        return a1.map(x => a2.includes(x))
+    },
+    in1d_invert: function(a1, a2) {
+        return a1.map(x => !a2.includes(x))
+    },
+
     linspace: function(low, high, count) {
         return [...Array(count).keys()].map(x => low + (x * 1/(count-1)))
     },

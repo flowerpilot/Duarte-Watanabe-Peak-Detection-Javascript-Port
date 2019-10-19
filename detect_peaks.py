@@ -105,7 +105,9 @@ def detect_peaks(x, mph=None, mpd=1, threshold=0, edge='rising',
     indnan = np.where(np.isnan(x))[0]
     print(f'3:{indnan}')
     if indnan.size:
+        print(f'3.1:{indnan}')
         x[indnan] = np.inf
+        print(f'3.2:{x}')
         dx[np.where(np.isnan(dx))[0]] = np.inf
     print(f'4:{x}')
     print(f'5:{dx}')

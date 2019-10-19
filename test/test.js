@@ -4,6 +4,21 @@ var detect_peak = require('../detect-peak')
 var h = require('../numpy-helpers')
 
 describe('detect-peak', function() {
+    describe('minimum peak height', function() {
+        /*
+            >>> x = np.sin(2*np.pi*5*np.linspace(0, 1, 200)) + np.random.randn(200)/5
+            >>> # set minimum peak height = 0 and minimum peak distance = 20
+            >>> detect_peaks(x, mph=0, mpd=20, show=True)
+        */
+        it('mph = 0 and minimum peak distance = 20', function() {
+            // np.sin(2*np.pi*5*np.linspace(0, 1, 200))
+            let x = h.A(h.linspace(0, 1, 200), x => Math.sin(x * Math.PI * 2 * 5))
+            test.array(
+                detect_peak(x, {mph:0, mpd:20})).
+                is([10, 50, 90, 129, 169])
+        })
+    })
+
     it('empty values array', function() {
         test.array(detect_peak([])).is([])
     })

@@ -97,7 +97,7 @@ function detect_peaks(x, params) {
         // ind = ind[np.in1d(ind, np.unique(np.hstack((indnan, indnan-1, indnan+1))), invert=True)]
         //
         // XXX: untested code block, due to lack of NaN example...
-        ind = mask(
+        ind = h.mask(
             ind, 
             in1d(
                 h.uniq(
@@ -115,7 +115,7 @@ function detect_peaks(x, params) {
   }
   // if ind.size and ind[-1] == x.size-1:
   //    ind = ind[:-1]
-  if(ind[ind.length-1] === 0) {
+  if(ind[ind.length-1] === x.length-1) {
     ind = ind.slice(0, -1)
   }
 //console.log(`11:${ind}`)
@@ -123,8 +123,12 @@ function detect_peaks(x, params) {
   // remove peaks < minimum peak height
   // if ind.size and mph is not None:
   //   ind = ind[x[ind] >= mph]
-  if(p.mph) {
-    ind = mask(ind, h.A(x, val >= mph))
+  if(p.mph) { 
+      ind = h.Asub(                 // ind[x[ind] >= mph]
+          ind, 
+          h.where(                  // x[ind] >= mph
+              h.Asub(x, ind),       // x[ind]
+              v => v >= p.mph))
   }
 //console.log(`12:${ind}`)
   // remove peaks - neighbors < threshold

@@ -11,6 +11,10 @@ const helpers = {
         return a.map((v,i) => f(v, b[i]))
     },
 
+    linspace: function(low, high, count) {
+        return [...Array(count).keys()].map(x => low + (x * 1/(count-1)))
+    },
+
     // return a sub selection of all indices of the input array which is
     // defined by the indices in idx
     Asub: function(a, idx) {

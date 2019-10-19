@@ -19,13 +19,6 @@ describe('detect-peak', function() {
         test.array(detect_peak(x, {mpd: 3})).is([1, 5, 11, 15, 19])
     })
 
-    /*
-    it('set minimum peak height = 0 and minimum peak distance = 20', function() {
-        let x = [0, 1, 0, 2, 0, 3, 0, 2, 0, 1, 0]
-        x = np.sin(2*np.pi*5*np.linspace(0, 1, 200)) // + np.random.randn(200)/5
-        test.array(detect_peak(x)).is([ 10, 50, 90, 129, 169])
-    })
-    */
     it('detect both edges', function() {
         let x = [0, 1, 1, 0, 1, 1, 0]
         test.array(detect_peak(x, {edge:'both'})).is([1, 2, 4, 5])
@@ -38,6 +31,15 @@ describe('detect-peak', function() {
 })
 
 describe('numpy-helpers', function() {
+
+    it('np.linspace(0, 1,  5)', function() {
+        /*
+        >>> np.linspace(0, 1, 5)
+        >>> array([0.  , 0.25, 0.5 , 0.75, 1.  ])
+        */
+        test.array(h.linspace(1, 2, 5)).is([1, 1.25, 1.5, 1.75, 2])
+    })
+
     describe('mask', function() {
         it('throws up on two many booleans', function() {
             test.

@@ -52,9 +52,12 @@ function detect_peaks(x, params) {
     return []
   }
 
-  if(p.valley) {
-    x.map(v => -v)
-  }
+    if(p.valley) {
+        x = x.map(v => -v)
+        if(p.mph) {
+            p.mph = -p.mph
+        }
+    }
 //console.log(`1:${x}`)
 
   // find indexes of all peaks
@@ -64,9 +67,11 @@ function detect_peaks(x, params) {
   // handle NaN's
   var indnan = h.where(x, val => val === NaN)
 //console.log(`3:${indnan}`)
-  if(0 < indnan.lenght) {
-    indnan.forEach(i => x[i] = Infinity)
-    h.where(dx, val => val === NaN).forEach(i => dx[i] = Infinity)
+  if(0 < indnan.length) {                   // if indnan.size:
+      indnan.forEach(i => x[i] = Infinity)  // x[indnan] = np.inf
+      h.where(
+          dx, val => val === NaN).          // np.where(np.isnan(dx))[0]
+          forEach(i => dx[i] = Infinity)    // dx[np.where(np.isnan(dx))[0]] = np.inf
   }
 //console.log(`4:${x}`)
 //console.log(`5:${dx}`)

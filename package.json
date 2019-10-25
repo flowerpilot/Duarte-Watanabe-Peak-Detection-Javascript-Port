@@ -16,8 +16,12 @@
   "keywords": [
     "math",
     "scientific",
-    "data"
+    "datascience",
+    "visualization"
   ],
+  "bugs": {
+    "url": "https://github.com/flowerpilot/Duarte-Watanabe-Peak-Detection-Javascript-Port/issues"
+  },
   "devDependencies": {
     "mocha": "^6.2.1",
     "unit.js": "^2.1.0"
